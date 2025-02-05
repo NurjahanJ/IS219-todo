@@ -1,6 +1,30 @@
-.app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* src/styles/App.css */
+/* Custom styles for Todo App */
+.todo-container {
+  @apply max-w-md mx-auto p-6 bg-white shadow-lg rounded-lg;
+}
+
+.todo-title {
+  @apply text-3xl font-bold mb-4 text-blue-700;
+}
+
+.todo-input {
+  @apply flex-1 p-3 border rounded-lg text-lg text-gray-700 border-gray-300 
+         focus:border-blue-500 focus:ring focus:ring-blue-300;
+}
+
+.todo-list {
+  @apply space-y-2;
+}
+
+.todo-item {
+  @apply flex items-center justify-between p-3 rounded-lg shadow-md;
+}
+
+.todo-item.completed {
+  @apply bg-green-100;
+}
+
+.todo-delete-btn {
+  @apply text-red-600 hover:text-red-800 transition duration-200;
 }

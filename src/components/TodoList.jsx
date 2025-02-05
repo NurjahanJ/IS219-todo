@@ -1,79 +1,54 @@
 // Import necessary dependencies from React
-// useState is a Hook that lets us add state to functional components
 import React, { useState } from 'react';
 
 // Define the TodoList component as a functional component
 const TodoList = () => {
-  // State Declarations using useState Hook
-  // todos: array to store all todo items
-  // setTodos: function to update the todos array
   const [todos, setTodos] = useState([]);
-  
-  // inputValue: stores the current text in the input field
-  // setInputValue: function to update the input field text
   const [inputValue, setInputValue] = useState('');
 
-  // Function that handles form submission when adding a new todo
+  // Function to handle form submission
   const handleSubmit = (e) => {
-    // Prevent the default form submission behavior
     e.preventDefault();
-    
-    // If the input is empty or only contains whitespace, don't add the todo
     if (!inputValue.trim()) return;
-    
-    // Add new todo to the todos array
-    // ...todos spreads the existing todos array
+
     setTodos([...todos, {
-      id: Date.now(),  // Create unique ID using current timestamp
-      text: inputValue,  // The todo text from input
-      completed: false   // Initial completion status
+      id: Date.now(),
+      text: inputValue,
+      completed: false
     }]);
-    
-    // Clear the input field after adding todo
+
     setInputValue('');
   };
 
-  // Function to toggle the completed status of a todo
+  // Function to toggle todo completion
   const toggleTodo = (id) => {
-    // Map through all todos and update the matched one
     setTodos(todos.map(todo => 
-      // If this todo matches the id we're looking for...
-      todo.id === id 
-        // Create a new object with all properties of the todo (...todo)
-        // but flip the completed status
-        ? { ...todo, completed: !todo.completed } 
-        // If it's not the todo we're looking for, keep it unchanged
-        : todo
+      todo.id === id ? { ...todo, completed: !todo.completed } : todo
     ));
   };
 
-  // Function to delete a todo by filtering it out of the array
+  // Function to delete a todo
   const deleteTodo = (id) => {
-    // Filter out the todo with the matching id
     setTodos(todos.filter(todo => todo.id !== id));
   };
 
-  // The JSX that will be rendered
   return (
-    // Main container with Tailwind CSS classes for styling
-    <div className="max-w-md mx-auto p-4">
-      {/* Title of the todo list */}
-      <h1 className="text-2xl font-bold mb-4">Todo List</h1>
-      
+    <div className="max-w-md mx-auto p-6 bg-white shadow-lg rounded-lg">
+      {/* Title */}
+      <h1 className="text-3xl font-bold mb-4 text-blue-700">Todo List</h1>
+
       {/* Form for adding new todos */}
       <form onSubmit={handleSubmit} className="mb-4 flex gap-2">
-        {/* Input field for new todo text */}
         <input
           type="text"
-          value={inputValue}  // Controlled input - value comes from state
-          onChange={(e) => setInputValue(e.target.value)}  // Update state on change
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
           placeholder="Add a new todo..."
-          className="flex-1 p-2 border rounded"
+          className="flex-1 p-3 border rounded-lg text-lg text-gray-700 border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-300"
         />
-        {/* Submit button to add new todo */}
         <button 
           type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-200"
         >
           Add
         </button>
@@ -81,30 +56,29 @@ const TodoList = () => {
 
       {/* List of todos */}
       <ul className="space-y-2">
-        {/* Map through todos array to create list items */}
         {todos.map(todo => (
           <li 
-            key={todo.id}  // Unique key required by React for list items
-            className="flex items-center justify-between p-2 border rounded"
+            key={todo.id}  
+            className={`flex items-center justify-between p-3 rounded-lg shadow-md ${
+              todo.completed ? 'bg-green-100' : 'bg-white'
+            }`}
           >
-            {/* Left side: checkbox and todo text */}
+            {/* Checkbox and todo text */}
             <div className="flex items-center gap-2">
-              {/* Checkbox for marking todo as complete */}
               <input
                 type="checkbox"
-                checked={todo.completed}  // Controlled checkbox
-                onChange={() => toggleTodo(todo.id)}  // Toggle on change
-                className="h-4 w-4"
+                checked={todo.completed}
+                onChange={() => toggleTodo(todo.id)}
+                className="h-5 w-5 accent-blue-500"
               />
-              {/* Todo text - applies strike-through style if completed */}
-              <span className={todo.completed ? 'line-through text-gray-500' : ''}>
+              <span className={`text-lg ${todo.completed ? 'line-through text-gray-500' : 'text-gray-900'}`}>
                 {todo.text}
               </span>
             </div>
             {/* Delete button */}
             <button
               onClick={() => deleteTodo(todo.id)}
-              className="text-red-500 hover:text-red-700"
+              className="text-red-600 hover:text-red-800 transition duration-200"
             >
               Delete
             </button>
@@ -115,5 +89,5 @@ const TodoList = () => {
   );
 };
 
-// Export the component so it can be imported elsewhere
+// Export the component
 export default TodoList;
